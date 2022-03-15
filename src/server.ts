@@ -3,26 +3,22 @@ import express from "express";
 import bodyParser from "body-parser";
 import logging from "./config/logging";
 import config from "./config/config";
-import topicRoutes from "./routes/topic.route";
-import mongoose from "mongoose";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import expressJwt from "express-jwt";
-
+import apiRoute from "./routes/api";
+import AWS from "aws-sdk";
+import "./DB/mongoDB";
 const NAMESPACE = "Server";
 const app = express();
 
-//==========================================================
-//                 CONNECTION TO MONGODB
-//==========================================================
-mongoose
-  .connect(config.mongo.url, config.mongo.options)
-  .then((result) => {
-    logging.info(NAMESPACE, "connected to mongoDB~!");
-  })
-  .catch((error) => {
-    logging.error(NAMESPACE, error.message, error);
-  });
+AWS.config.getCredentials(function (err) {
+  if (err) console.log(err.stack);
+  // credentials not loaded
+  else {
+    console.log("Access key:", AWS.config.credentials.accessKeyId);
+  }
+});
 
 //==========================================================
 //             TRACKING REQUESTS DURING DEVELOPMENT
@@ -81,7 +77,11 @@ app.use(cors(config.cors));
 //==========================================================
 //                     ROUTERS
 //==========================================================
-app.use("/api/topics", topicRoutes);
+// app.use("/api/restaurants", restaurantRoutes);
+// app.use("/api/chefs", chefRoutes);
+// app.use("/api/uploads", uploadRoutes);
+app.use("/api", apiRoute);
+app.use(express.static("public"));
 
 //==========================================================
 //                  ERROR HANDLING
