@@ -4,6 +4,7 @@ export default interface IChef extends Document {
   name: string;
   descr: string;
   url: string;
+  isWeekly: boolean;
   //   restaurants: ObjectId[];
 }
 

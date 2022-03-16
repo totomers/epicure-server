@@ -1,47 +1,59 @@
 import { Request, Response, NextFunction } from "express";
 import logging from "../config/logging";
+import {
+  createChefDb,
+  deleteChefDb,
+  getAllChefsDb,
+  getWeeklyChefDb,
+  updateChefDb,
+} from "../handlers/chef.handler";
 import IChef from "../interfaces/chef.interface";
-import Chef from "../models/chef.model";
 import { ok, err } from "../_helpers";
+
 const NAMESPACE = "Controllers chef.ts";
 
-const getAllChefs = async (req: Request, res: Response, next: NextFunction) => {
+const getAllChefs = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "gertAllChefs function called");
-
-  Chef.find()
-    .exec()
-    .then((chefs) => {
-      ok(res, { chefs }, true);
-    })
-    .catch((error) => err(res, error));
+  const results = await getAllChefsDb();
+  if (results.error) err(res, results.error);
+  else ok(res, { chefs: results.success }, true);
 };
 
-const createChef = (req: Request, res: Response, next: NextFunction) => {
+const createChef = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "createChef function called");
   const { name, url, descr } = req.body as Partial<IChef>;
-
-  const newChef = new Chef({ name, url, descr });
-  newChef
-    .save()
-    .then((newChef) => {
-      ok(res, { newChef }, true);
-    })
-    .catch((error) => err(res, error));
+  const results = await createChefDb({ name, url, descr });
+  if (results.error) err(res, results.error);
+  else ok(res, { newChef: results.success }, true);
 };
 
-const getChef = async (req: Request, res: Response, next: NextFunction) => {
+const getWeeklyChef = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "getChef function called");
+  const results = await getWeeklyChefDb();
+  if (results.error) err(res, results.error);
+  else ok(res, { weeklyChef: results.success });
+};
 
-  Chef.find()
-    .exec()
-    .then((chefs) => {
-      ok(res, { chefs }, true);
-    })
-    .catch((error) => err(res, error));
+const updateChef = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "updateChef function called");
+  const { _id } = req.params;
+  const { name, descr, isWeekly, url } = req.body as Partial<IChef>;
+  const results = await updateChefDb({ name, descr, isWeekly, url, _id });
+  if (results.error) err(res, results.error);
+  else ok(res, { updatedChef: results.success }, true);
+};
+const deleteChef = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "getChef function called");
+  const { _id } = req.params;
+  const results = await deleteChefDb(_id);
+  if (results.error) err(res, results.error);
+  else ok(res, { deleted: results.success });
 };
 
 export default {
   getAllChefs,
   createChef,
-  getChef,
+  getWeeklyChef,
+  deleteChef,
+  updateChef,
 };

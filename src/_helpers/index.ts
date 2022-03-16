@@ -12,7 +12,6 @@ export function err(res: Response, error: Error) {
   return res.status(500).json({ message: error.message, error });
 }
 
-
 export function errMissing(res: Response) {
   console.log("ERROR: MISSING REQUEST PARAMS");
   return res.status(500).json({ message: "Missing request parameter" });

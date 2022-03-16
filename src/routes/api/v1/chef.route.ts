@@ -4,9 +4,9 @@ import controller from "../../../controllers/chef.controller";
 const router = express.Router();
 
 router.get("/", controller.getAllChefs);
-router.get("/:id", controller.getChef);
+router.get("/weekly", controller.getWeeklyChef);
 router.post("/create", controller.createChef);
-// router.put("/update", controller.updateRestaurant);
-// router.delete("/delete", controller.deleteRestaurant);
+router.put("/update/:id", controller.updateChef);
+router.delete("/:id", controller.deleteChef);
 
 export = router;
