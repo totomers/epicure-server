@@ -2,3 +2,4 @@
 **public/images
 **/uploads
 **secret_keys
+**.env
