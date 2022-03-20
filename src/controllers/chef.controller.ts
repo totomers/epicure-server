@@ -4,6 +4,7 @@ import {
   createChefDb,
   deleteChefDb,
   getAllChefsDb,
+  getChefDb,
   getWeeklyChefDb,
   updateChefDb,
 } from "../handlers/chef.handler";
@@ -16,7 +17,15 @@ const getAllChefs = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "gertAllChefs function called");
   const results = await getAllChefsDb();
   if (results.error) err(res, results.error);
-  else ok(res, { chefs: results.success }, true);
+  else ok(res, { chefs: results.success });
+};
+
+const getChef = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "getChef function called");
+  const { _id } = req.params;
+  const results = await getChefDb(_id);
+  if (results.error) err(res, results.error);
+  else ok(res, { chef: results.success });
 };
 
 const createChef = async (req: Request, res: Response) => {
@@ -52,6 +61,7 @@ const deleteChef = async (req: Request, res: Response) => {
 
 export default {
   getAllChefs,
+  getChef,
   createChef,
   getWeeklyChef,
   deleteChef,

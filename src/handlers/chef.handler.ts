@@ -11,6 +11,15 @@ export const getAllChefsDb = async (): Promise<IHandlerResults> => {
   }
 };
 
+export const getChefDb = async (_id: string): Promise<IHandlerResults> => {
+  try {
+    const chef = await Chef.findById(_id);
+    return { success: chef };
+  } catch (error) {
+    return { error };
+  }
+};
+
 export const createChefDb = async (
   props: Partial<IChef>
 ): Promise<IHandlerResults> => {

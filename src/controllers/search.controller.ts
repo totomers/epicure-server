@@ -5,6 +5,7 @@ import Restaurant from "../models/restaurant.model";
 import Chef from "../models/chef.model";
 import Dish from "../models/dish.model";
 import { ok, err } from "../_helpers";
+import { getAllContentDb } from "../handlers/search.handler";
 const NAMESPACE = "Controllers search.ts";
 
 const getAllContent = async (
@@ -14,24 +15,10 @@ const getAllContent = async (
 ) => {
   logging.info(NAMESPACE, "getAllContent function called");
 
-  try {
-    const { name } = req.params;
-    console.log("name", name);
-
-    const restaurants = await Restaurant.find({
-      name: { $regex: name, $options: "i" },
-    });
-    const dishes = await Dish.find({
-      name: { $regex: name, $options: "i" },
-    });
-    const chefs = await Chef.find({
-      name: { $regex: name, $options: "i" },
-    });
-
-    ok(res, { results: { restaurants, dishes, chefs } });
-  } catch (error) {
-    err(res, error);
-  }
+  const { name } = req.params;
+  const results = await getAllContentDb(name);
+  if (results.error) err(res, results.error);
+  ok(res, { results: results.success });
 };
 
 export default {

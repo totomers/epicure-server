@@ -10,7 +10,14 @@ export const getAllDishesDb = async (): Promise<IHandlerResults> => {
     return { error };
   }
 };
-
+export const getDishDb = async (_id: string): Promise<IHandlerResults> => {
+  try {
+    const dish = await Dish.findById(_id);
+    return { success: dish };
+  } catch (error) {
+    return { error };
+  }
+};
 export const createDishDb = async (
   props: Partial<IDish>
 ): Promise<IHandlerResults> => {

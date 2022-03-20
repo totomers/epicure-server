@@ -5,6 +5,7 @@ import {
   deleteRestaurantDb,
   getAllRestaurantsDb,
   getPopularRestaurantsDb,
+  getRestaurantDb,
   getRestaurantsOfChefDb,
   updateRestaurantDb,
 } from "../handlers/restaurant.handler";
@@ -18,9 +19,14 @@ const getAllRestaurants = async (req: Request, res: Response) => {
   if (results.error) err(res, results.error);
   else ok(res, { restaurants: results.success });
 };
+
 const getPopularRestaurants = async (req: Request, res: Response) => {
+  console.log("hiiiiiiiiiiiiiiis");
+
   logging.info(NAMESPACE, "getPopularRestaurants function called");
   const results = await getPopularRestaurantsDb();
+  console.log("results", results);
+
   if (results.error) err(res, results.error);
   else ok(res, { restaurants: results.success });
 };
@@ -31,6 +37,14 @@ const getRestaurantsOfChef = async (req: Request, res: Response) => {
   const results = await getRestaurantsOfChefDb(id);
   if (results.error) err(res, results.error);
   else ok(res, { restaurants: results.success });
+};
+
+const getRestaurant = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "getRestaurant function called");
+  const { _id } = req.params;
+  const results = await getRestaurantDb(_id);
+  if (results.error) err(res, results.error);
+  else ok(res, { restaurant: results.success }, true);
 };
 
 const createRestaurant = async (req: Request, res: Response) => {
@@ -62,6 +76,7 @@ export default {
   getAllRestaurants,
   getPopularRestaurants,
   getRestaurantsOfChef,
+  getRestaurant,
   createRestaurant,
   updateRestaurant,
   deleteRestaurant,

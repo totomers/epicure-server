@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get("/", controller.getAllRestaurants);
 router.get("/popular", controller.getPopularRestaurants);
+router.get("/:_id", controller.getRestaurant);
 router.get("/ofChef/:id", controller.getRestaurantsOfChef);
 router.post("/create", controller.createRestaurant);
 router.put("/update/:id", controller.updateRestaurant);

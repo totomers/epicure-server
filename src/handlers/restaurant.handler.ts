@@ -4,7 +4,7 @@ import Restaurant from "../models/restaurant.model";
 
 export const getAllRestaurantsDb = async (): Promise<IHandlerResults> => {
   try {
-    const restaurants = await Restaurant.find();
+    const restaurants = await Restaurant.find().populate("chef").exec();
     return { success: restaurants };
   } catch (error) {
     return { error };
@@ -16,8 +16,11 @@ export const getPopularRestaurantsDb = async (): Promise<IHandlerResults> => {
     const restaurants = await Restaurant.find({ isPopular: true })
       .populate("chef")
       .exec();
+
     return { success: restaurants };
   } catch (error) {
+    console.log(error);
+
     return { error };
   }
 };
@@ -28,6 +31,17 @@ export const getRestaurantsOfChefDb = async (
   try {
     const restaurants = await Restaurant.find({ chef: _id });
     return { success: restaurants };
+  } catch (error) {
+    return { error };
+  }
+};
+
+export const getRestaurantDb = async (
+  _id: string
+): Promise<IHandlerResults> => {
+  try {
+    const restaurant = await Restaurant.findById(_id);
+    return { success: restaurant };
   } catch (error) {
     return { error };
   }

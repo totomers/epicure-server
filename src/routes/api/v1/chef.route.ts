@@ -5,6 +5,7 @@ const router = express.Router();
 
 router.get("/", controller.getAllChefs);
 router.get("/weekly", controller.getWeeklyChef);
+router.get("/:_id", controller.getChef);
 router.post("/create", controller.createChef);
 router.put("/update/:id", controller.updateChef);
 router.delete("/:id", controller.deleteChef);
