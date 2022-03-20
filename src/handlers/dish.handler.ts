@@ -4,7 +4,7 @@ import Dish from "../models/dish.model";
 
 export const getAllDishesDb = async (): Promise<IHandlerResults> => {
   try {
-    const dishes = await Dish.find();
+    const dishes = await Dish.find().populate("restaurant").exec();
     return { success: dishes };
   } catch (error) {
     return { error };

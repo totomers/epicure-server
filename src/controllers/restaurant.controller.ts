@@ -7,6 +7,7 @@ import {
   getPopularRestaurantsDb,
   getRestaurantDb,
   getRestaurantsOfChefDb,
+  getRestaurantsSignatureDishesDb,
   updateRestaurantDb,
 } from "../handlers/restaurant.handler";
 import IRestaurant from "../interfaces/restaurant.interface";
@@ -37,6 +38,13 @@ const getRestaurantsOfChef = async (req: Request, res: Response) => {
   const results = await getRestaurantsOfChefDb(id);
   if (results.error) err(res, results.error);
   else ok(res, { restaurants: results.success });
+};
+
+const getRestaurantsSignatureDishes = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "getSignatureDishesOfRestaurants function called");
+  const results = await getRestaurantsSignatureDishesDb();
+  if (results.error) err(res, results.error);
+  else ok(res, { signatureDishes: results.success });
 };
 
 const getRestaurant = async (req: Request, res: Response) => {
@@ -77,6 +85,7 @@ export default {
   getPopularRestaurants,
   getRestaurantsOfChef,
   getRestaurant,
+  getRestaurantsSignatureDishes,
   createRestaurant,
   updateRestaurant,
   deleteRestaurant,

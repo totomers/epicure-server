@@ -14,3 +14,7 @@ mongoose
   .catch((error) => {
     logging.error(NAMESPACE, error.message, error);
   });
+
+const conn = mongoose.connection;
+
+export default conn;

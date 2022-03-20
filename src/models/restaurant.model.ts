@@ -5,7 +5,7 @@ const RestaurantSchema: Schema = new Schema({
   name: { type: String, required: true },
   url: { type: String, required: true },
   chef: { type: mongoose.Schema.Types.ObjectId, ref: "Chef" },
-  // dishes: { type: [mongoose.Schema.Types.ObjectId], ref: "Dishes" },
+  signatureDish: { type: mongoose.Schema.Types.ObjectId, ref: "Dish" },
   isPopular: { type: Boolean, default: false },
 });
 // RestaurantSchema.post<IRestaurant>("save", function () {

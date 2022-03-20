@@ -7,6 +7,7 @@ import {
   getChefDb,
   getWeeklyChefDb,
   updateChefDb,
+  updateWeeklyChefDb,
 } from "../handlers/chef.handler";
 import IChef from "../interfaces/chef.interface";
 import { ok, err } from "../_helpers";
@@ -51,6 +52,14 @@ const updateChef = async (req: Request, res: Response) => {
   if (results.error) err(res, results.error);
   else ok(res, { updatedChef: results.success }, true);
 };
+const updateWeeklyChef = async (req: Request, res: Response) => {
+  logging.info(NAMESPACE, "updateWeeklyChef function called");
+  const { _id } = req.params;
+  if (!_id) err(res, new Error("missing _id"));
+  const results = await updateWeeklyChefDb(_id);
+  if (results.error) err(res, results.error);
+  else ok(res, { updatedChef: results.success }, true);
+};
 const deleteChef = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "getChef function called");
   const { _id } = req.params;
@@ -64,6 +73,7 @@ export default {
   getChef,
   createChef,
   getWeeklyChef,
+  updateWeeklyChef,
   deleteChef,
   updateChef,
 };

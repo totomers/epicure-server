@@ -5,6 +5,7 @@ export default interface IRestaurant extends Document {
   url: string;
   chef: ObjectId;
   //   dishes: ObjectId[];
+  signatureDish: ObjectId;
   isPopular: boolean;
 }
 

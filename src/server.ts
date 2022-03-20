@@ -80,8 +80,8 @@ app.use(cors(config.cors));
 // app.use("/api/restaurants", restaurantRoutes);
 // app.use("/api/chefs", chefRoutes);
 // app.use("/api/uploads", uploadRoutes);
-app.use("/api", apiRoute);
 app.use(express.static("public"));
+app.use("/api", apiRoute);
 
 //==========================================================
 //                  ERROR HANDLING

@@ -1,6 +1,8 @@
 import Chef from "../models/chef.model";
 import IHandlerResults from "../interfaces/handlerResults.interface";
 import IChef from "../interfaces/chef.interface";
+import Restaurant from "../models/restaurant.model";
+import conn from "../DB/mongoDB";
 
 export const getAllChefsDb = async (): Promise<IHandlerResults> => {
   try {
@@ -57,10 +59,42 @@ export const updateChefDb = async (
     return { error };
   }
 };
-export const deleteChefDb = async (_id: string): Promise<IHandlerResults> => {
+
+export const updateWeeklyChefDb = async (
+  _id: string
+): Promise<IHandlerResults> => {
   try {
-    const deleted = await Chef.findByIdAndDelete(_id);
-    return { success: deleted._id ? true : false };
+    const session = await conn.startSession();
+    let updatedChef;
+    await session.withTransaction(async () => {
+      await Chef.findOneAndUpdate(
+        { isWeekly: true },
+        { isWeekly: false },
+        { new: true }
+      );
+      updatedChef = await Chef.findByIdAndUpdate(
+        _id,
+        { isWeekly: true },
+        { new: true }
+      );
+    });
+    session.endSession();
+
+    return { success: updatedChef };
+  } catch (error) {
+    return { error };
+  }
+};
+export const deleteChefDb = async (_id: string): Promise<IHandlerResults> => {
+  let deleted;
+  try {
+    const session = await conn.startSession();
+    await session.withTransaction(async () => {
+      await Restaurant.deleteMany({ chef: _id }, { session });
+      deleted = await Chef.findByIdAndDelete(_id, { session });
+    });
+    session.endSession();
+    return { success: deleted?._id ? true : false };
   } catch (error) {
     return { error };
   }

@@ -8,6 +8,7 @@ router.get("/weekly", controller.getWeeklyChef);
 router.get("/:_id", controller.getChef);
 router.post("/create", controller.createChef);
 router.put("/update/:id", controller.updateChef);
+router.put("/updateWeekly/:_id", controller.updateWeeklyChef);
 router.delete("/:id", controller.deleteChef);
 
 export = router;
