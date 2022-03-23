@@ -10,6 +10,16 @@ export const getAllDishesDb = async (): Promise<IHandlerResults> => {
     return { error };
   }
 };
+export const getDishesOfRestaurantDb = async (
+  _id: string
+): Promise<IHandlerResults> => {
+  try {
+    const dishes = await Dish.find({ restaurant: _id });
+    return { success: dishes };
+  } catch (error) {
+    return { error };
+  }
+};
 export const getDishDb = async (_id: string): Promise<IHandlerResults> => {
   try {
     const dish = await Dish.findById(_id);

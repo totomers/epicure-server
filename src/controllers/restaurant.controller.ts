@@ -22,8 +22,6 @@ const getAllRestaurants = async (req: Request, res: Response) => {
 };
 
 const getPopularRestaurants = async (req: Request, res: Response) => {
-  console.log("hiiiiiiiiiiiiiiis");
-
   logging.info(NAMESPACE, "getPopularRestaurants function called");
   const results = await getPopularRestaurantsDb();
   console.log("results", results);
@@ -34,8 +32,8 @@ const getPopularRestaurants = async (req: Request, res: Response) => {
 
 const getRestaurantsOfChef = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "getRestaurantsOfChef function called");
-  const { id } = req.params;
-  const results = await getRestaurantsOfChefDb(id);
+  const { _id } = req.params;
+  const results = await getRestaurantsOfChefDb(_id);
   if (results.error) err(res, results.error);
   else ok(res, { restaurants: results.success });
 };
@@ -57,8 +55,16 @@ const getRestaurant = async (req: Request, res: Response) => {
 
 const createRestaurant = async (req: Request, res: Response) => {
   logging.info(NAMESPACE, "createRestaurant function called");
-  const { name, url, chef, isPopular } = req.body as Partial<IRestaurant>;
-  const results = await createRestaurantDb({ name, url, chef, isPopular });
+  const { name, url, chef, isPopular, signatureDish } =
+    req.body as Partial<IRestaurant>;
+  const results = await createRestaurantDb({
+    name,
+    url,
+    chef,
+    isPopular,
+    signatureDish,
+  });
+
   if (results.error) err(res, results.error);
   else ok(res, { newRestaurant: results.success });
 };
@@ -68,6 +74,7 @@ const updateRestaurant = async (req: Request, res: Response) => {
   const { _id } = req.params;
   const { name, url, chef, isPopular } = req.body as Partial<IRestaurant>;
   const results = await updateRestaurantDb({ name, url, chef, isPopular, _id });
+
   if (results.error) err(res, results.error);
   else ok(res, { updatedRestaurant: results.success });
 };

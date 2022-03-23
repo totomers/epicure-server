@@ -5,7 +5,10 @@ import Dish from "../models/dish.model";
 import conn from "../DB/mongoDB";
 export const getAllRestaurantsDb = async (): Promise<IHandlerResults> => {
   try {
-    const restaurants = await Restaurant.find().populate("chef").exec();
+    const restaurants = await Restaurant.find()
+      .populate("chef")
+      .populate("signatureDish")
+      .exec();
     return { success: restaurants };
   } catch (error) {
     return { error };
@@ -86,14 +89,19 @@ export const updateRestaurantDb = async (
   props: Partial<IRestaurant>
 ): Promise<IHandlerResults> => {
   try {
-    const { name, url, chef, isPopular, _id } = props;
+    const { name, url, chef, isPopular, signatureDish, _id } = props;
+    console.log(props);
+
     const updatedRestaurant = await Restaurant.findByIdAndUpdate(
       _id,
-      { name, url, chef, isPopular },
+      { name, url, chef, isPopular, signatureDish },
       {
         new: true,
       }
-    );
+    )
+      .populate("chef")
+      .populate("signatureDish")
+      .exec();
     return { success: updatedRestaurant };
   } catch (error) {
     return { error };

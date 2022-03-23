@@ -5,6 +5,7 @@ import {
   deleteDishDb,
   getAllDishesDb,
   getDishDb,
+  getDishesOfRestaurantDb,
   updateDishDb,
 } from "../handlers/dish.handler";
 import IDish from "../interfaces/dish.interface";
@@ -18,6 +19,18 @@ const getAllDishes = async (
 ) => {
   logging.info(NAMESPACE, "getAllDishes function called");
   const results = await getAllDishesDb();
+  if (results.error) err(res, results.error);
+  else ok(res, { dishes: results.success });
+};
+
+const getDishesOfRestaurant = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  logging.info(NAMESPACE, "getAllDishes function called");
+  const { _id } = req.params;
+  const results = await getDishesOfRestaurantDb(_id);
   if (results.error) err(res, results.error);
   else ok(res, { dishes: results.success });
 };
@@ -74,6 +87,7 @@ const deleteDish = async (req: Request, res: Response, next: NextFunction) => {
 
 export default {
   getAllDishes,
+  getDishesOfRestaurant,
   getDish,
   createDish,
   updateDish,
