@@ -47,13 +47,15 @@ export const getWeeklyChefDb = async (): Promise<IHandlerResults> => {
 export const updateChefDb = async (
   props: Partial<IChef>
 ): Promise<IHandlerResults> => {
-  const { name, descr, isWeekly, url, _id } = props;
+  const { name, descr, url, _id } = props;
+
   try {
     const updatedChef = await Chef.findByIdAndUpdate(
       _id,
-      { name, descr, isWeekly, url },
+      { name, descr, url },
       { new: true }
     );
+
     return { success: updatedChef };
   } catch (error) {
     return { error };

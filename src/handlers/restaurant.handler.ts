@@ -77,10 +77,21 @@ export const createRestaurantDb = async (
   props: Partial<IRestaurant>
 ): Promise<IHandlerResults> => {
   try {
-    const newRestaurant = new Restaurant(props);
+    console.log("restaurants", props);
+    const { name, url, chef, signatureDish, isPopular } = props;
+
+    const newRestaurant = new Restaurant({
+      name,
+      url,
+      chef,
+      signatureDish: signatureDish ? signatureDish : null,
+      isPopular,
+    });
     const restaurant = await newRestaurant.save();
     return { success: restaurant };
   } catch (error) {
+    console.log(error);
+
     return { error };
   }
 };

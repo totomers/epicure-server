@@ -56,6 +56,7 @@ const createDish = async (req: Request, res: Response, next: NextFunction) => {
     price,
     restaurant,
   });
+
   if (results.error) err(res, results.error);
   else ok(res, { newDish: results.success }, true);
 };

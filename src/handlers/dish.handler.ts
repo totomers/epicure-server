@@ -32,10 +32,12 @@ export const createDishDb = async (
   props: Partial<IDish>
 ): Promise<IHandlerResults> => {
   try {
-    const newDish = new Dish(props);
-    const dish = await newDish.save();
+    const newDish = await Dish.create(props);
+    const dish = await Dish.findById(newDish._id).populate("restaurant").exec();
     return { success: dish };
   } catch (error) {
+    console.log(error);
+
     return { error };
   }
 };
@@ -49,7 +51,9 @@ export const updateDishDb = async (
       _id,
       { name, url, price, tags, ingredients, restaurant },
       { new: true }
-    );
+    )
+      .populate("restaurant")
+      .exec();
     return { success: updatedDish };
   } catch (error) {
     return { error };
