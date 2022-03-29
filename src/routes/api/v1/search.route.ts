@@ -3,6 +3,7 @@ import controller from "../../../controllers/search.controller";
 
 const router = express.Router();
 
-router.get("/:name", controller.getAllContent);
+router.get("/count", controller.countAllDocuments);
+router.get("/name/:name", controller.getAllContent);
 
 export = router;

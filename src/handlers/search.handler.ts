@@ -48,3 +48,17 @@ export const getAllContentDb = async (name: string) => {
     return { error };
   }
 };
+
+export const countAllDocumentsDb = async (name: string) => {
+  try {
+    const restaurants = await Restaurant.countDocuments();
+    const dishes = await Dish.countDocuments();
+    const chefs = await Chef.countDocuments();
+
+    return {
+      success: { restaurants, dishes, chefs },
+    };
+  } catch (error) {
+    return { error };
+  }
+};
