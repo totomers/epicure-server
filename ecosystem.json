@@ -1,0 +1,115 @@
+{
+
+
+
+
+	
+	"apps": [
+
+
+		{
+
+
+			"name": "epicure-server",
+
+
+
+
+
+
+			"script": "./src/server.ts",
+
+
+			"env": {
+
+
+				"NODE_ENV": "development"
+
+
+			}
+
+
+		}
+
+
+	],
+
+
+	"deploy": {
+
+
+		"staging": {
+
+
+			"key": "/Users/tomereyal/Desktop/epicure-key",
+
+
+			"user": "ubuntu",
+
+
+
+
+
+
+			"host": ["ec2-3-68-72-217.eu-central-1.compute.amazonaws.com"],
+
+
+
+
+
+
+			"ref": "origin/main",
+
+
+
+
+
+
+			"repo": "git@github.com:totomers/epicure-server.git",
+
+
+
+
+
+
+			"path": "/home/ubuntu/server",
+
+
+
+
+
+
+			"ssh_options": "StrictHostKeyChecking=no",
+
+
+
+
+
+
+			"post-deploy": "mkdir -p logs && npm i && pm2 reload ecosystem.json --env staging",
+
+
+
+
+
+
+			"pre-deploy-local": "echo 'Deploying code to servers'",
+
+
+			"env": {
+
+
+				"NODE_ENV": "staging"
+
+
+			}
+
+
+		}
+
+
+	}
+
+
+}
+
