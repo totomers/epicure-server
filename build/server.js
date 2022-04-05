@@ -10,7 +10,6 @@ const logging_1 = __importDefault(require("./config/logging"));
 const config_1 = __importDefault(require("./config/config"));
 const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const cors_1 = __importDefault(require("cors"));
-const express_jwt_1 = __importDefault(require("express-jwt"));
 const api_1 = __importDefault(require("./routes/api"));
 const aws_sdk_1 = __importDefault(require("aws-sdk"));
 require("./DB/mongoDB");
@@ -50,33 +49,35 @@ app.use((0, cookie_parser_1.default)());
 app.use((0, cors_1.default)(config_1.default.cors));
 // comment out this line if you want to bypass JWT check during development
 // When client attaches "bearer token" , expressJwt verifies it and if it is authenticated it will
-app.use((0, express_jwt_1.default)({
-    secret: config_1.default.jwtSecret,
-    algorithms: ["HS256"],
-    requestProperty: "user", //default token claims available under req.user
-}).unless({
-    path: [
-        "/api/v1/restaurants/getAll",
-        "/api/v1/restaurants/popular",
-        "/api/v1/restaurants/signatureDishes",
-        /\/api\/v1\/restaurants\/ofChef/i,
-        /\/api\/v1\/restaurants\/getRestaurant/i,
-        "/api/v1/chefs/getAll",
-        /\/api\/v1\/chefs\/getChef/i,
-        "/api/v1/chefs/weekly",
-        "/api/v1/dishes/getAll",
-        /\/api\/v1\/dishes\/ofRestaurant/i,
-        /\/api\/v1\/dishes\/getDish/i,
-        "/api/v1/search/count",
-        /\/api\/v1\/search\/name/i,
-        "/api/v1/users/register",
-        "/api/v1/users/refresh",
-        "/api/v1/users/isEmailTaken",
-        "/api/v1/users/authenticate",
-        "/api/v1/users/logout",
-        "/api/v1/s3",
-    ],
-}));
+// app.use(
+//   expressJwt({
+//     secret: config.jwtSecret,
+//     algorithms: ["HS256"],
+//     requestProperty: "user", //default token claims available under req.user
+//   }).unless({
+//     path: [
+//       "/api/v1/restaurants/getAll",
+//       "/api/v1/restaurants/popular",
+//       "/api/v1/restaurants/signatureDishes",
+//       /\/api\/v1\/restaurants\/ofChef/i,
+//       /\/api\/v1\/restaurants\/getRestaurant/i,
+//       "/api/v1/chefs/getAll",
+//       /\/api\/v1\/chefs\/getChef/i,
+//       "/api/v1/chefs/weekly",
+//       "/api/v1/dishes/getAll",
+//       /\/api\/v1\/dishes\/ofRestaurant/i,
+//       /\/api\/v1\/dishes\/getDish/i,
+//       "/api/v1/search/count",
+//       /\/api\/v1\/search\/name/i,
+//       "/api/v1/users/register",
+//       "/api/v1/users/refresh",
+//       "/api/v1/users/isEmailTaken",
+//       "/api/v1/users/authenticate",
+//       "/api/v1/users/logout",
+//       "/api/v1/s3",
+//     ],
+//   })
+// );
 //CHECK IF YOU CAN GET CUSTOM ERRORS WITH EXPRESSJWT ±±±±±±±±±±
 //==========================================================
 //                     ROUTERS
