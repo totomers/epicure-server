@@ -86,7 +86,7 @@
 
 
 
-			"post-deploy": "mkdir -p logs && npm i && pm2 reload ecosystem.json --env staging",
+			"post-deploy": "mkdir -p logs &&sudo npm i &&sudo pm2 reload ecosystem.json --env staging",
 
 
 
