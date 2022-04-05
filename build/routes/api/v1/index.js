@@ -1,0 +1,21 @@
+"use strict";
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
+const express_1 = __importDefault(require("express"));
+const restaurant_route_1 = __importDefault(require("./restaurant.route"));
+const chef_route_1 = __importDefault(require("./chef.route"));
+const dish_route_1 = __importDefault(require("./dish.route"));
+const search_route_1 = __importDefault(require("./search.route"));
+const upload_route_1 = __importDefault(require("./upload.route"));
+const user_route_1 = __importDefault(require("./user.route"));
+const s3_route_1 = __importDefault(require("./s3.route"));
+const router = express_1.default.Router();
+router.use("/restaurants", restaurant_route_1.default);
+router.use("/dishes", dish_route_1.default);
+router.use("/chefs", chef_route_1.default);
+router.use("/search", search_route_1.default);
+router.use("/uploads", upload_route_1.default);
+router.use("/users", user_route_1.default);
+router.use("/s3", s3_route_1.default);
+module.exports = router;
