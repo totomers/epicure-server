@@ -60,35 +60,35 @@ app.use(cors(config.cors));
 
 // comment out this line if you want to bypass JWT check during development
 // When client attaches "bearer token" , expressJwt verifies it and if it is authenticated it will
-// app.use(
-//   expressJwt({
-//     secret: config.jwtSecret,
-//     algorithms: ["HS256"],
-//     requestProperty: "user", //default token claims available under req.user
-//   }).unless({
-//     path: [
-//       "/api/v1/restaurants/getAll",
-//       "/api/v1/restaurants/popular",
-//       "/api/v1/restaurants/signatureDishes",
-//       /\/api\/v1\/restaurants\/ofChef/i,
-//       /\/api\/v1\/restaurants\/getRestaurant/i,
-//       "/api/v1/chefs/getAll",
-//       /\/api\/v1\/chefs\/getChef/i,
-//       "/api/v1/chefs/weekly",
-//       "/api/v1/dishes/getAll",
-//       /\/api\/v1\/dishes\/ofRestaurant/i,
-//       /\/api\/v1\/dishes\/getDish/i,
-//       "/api/v1/search/count",
-//       /\/api\/v1\/search\/name/i,
-//       "/api/v1/users/register",
-//       "/api/v1/users/refresh",
-//       "/api/v1/users/isEmailTaken",
-//       "/api/v1/users/authenticate",
-//       "/api/v1/users/logout",
-//       "/api/v1/s3",
-//     ],
-//   })
-// );
+app.use(
+  expressJwt({
+    secret: config.jwtSecret,
+    algorithms: ["HS256"],
+    requestProperty: "user", //default token claims available under req.user
+  }).unless({
+    path: [
+      // "/api/v1/restaurants/getAll",
+      "/api/v1/restaurants/popular",
+      "/api/v1/restaurants/signatureDishes",
+      /\/api\/v1\/restaurants\/ofChef/i,
+      /\/api\/v1\/restaurants\/getRestaurant/i,
+      "/api/v1/chefs/getAll",
+      /\/api\/v1\/chefs\/getChef/i,
+      "/api/v1/chefs/weekly",
+      "/api/v1/dishes/getAll",
+      /\/api\/v1\/dishes\/ofRestaurant/i,
+      /\/api\/v1\/dishes\/getDish/i,
+      "/api/v1/search/count",
+      /\/api\/v1\/search\/name/i,
+      "/api/v1/users/register",
+      "/api/v1/users/refresh",
+      "/api/v1/users/isEmailTaken",
+      "/api/v1/users/authenticate",
+      "/api/v1/users/logout",
+      "/api/v1/s3",
+    ],
+  })
+);
 //CHECK IF YOU CAN GET CUSTOM ERRORS WITH EXPRESSJWT ±±±±±±±±±±
 //==========================================================
 //                     ROUTERS
@@ -105,7 +105,7 @@ app.use("/api", apiRoute);
 app.use((req, res, next) => {
   const error = new Error("not found");
 
-  return res.status(404).json({ message: error.message });
+  return res.status(404).json({ message: error.message, urlReceived: req.url });
 });
 
 //==========================================================
